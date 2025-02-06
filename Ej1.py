@@ -65,21 +65,20 @@ def u(n: int):
 
 
 def main():
-    n = int(input("Ingrese el número de dígitos que quiere mostrar: "))
-    tipo = input("Ingrese el tipo de lista que quiere mostrar (a/u): ")
+    n = int(input("\nIngrese el número de dígitos que quiere mostrar: "))
+    tipo = input("\nIngrese el tipo de lista que quiere mostrar (a/u): ")
     while tipo not in ["a", "u"]:
-        print("Tipo no válido")
-        tipo = input("Ingrese el tipo de lista que quiere mostrar (a/u): ")
+        print("\nTipo no válido")
+        tipo = input("\nIngrese el tipo de lista que quiere mostrar (a/u): ")
     if tipo == "a":
         t0 = nanoseconds()
         lista = a(n)
         t = nanoseconds() 
-        print("Tiempo de ejecución: ", t-t0, "nanosegundos.")
     elif tipo == "u":
         t0 = nanoseconds()
         lista, listaFloat = u(n)
         t = nanoseconds()
-        print("Tiempo de ejecución: ", t-t0, "nanosegundos.")
     for i in lista:
         print(i, end=" ")
+    print("\nTiempo de ejecución: ", t-t0, "nanosegundos.\n")
 
