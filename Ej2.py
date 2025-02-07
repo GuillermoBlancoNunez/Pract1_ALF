@@ -14,12 +14,13 @@ def mg(n: int)->list:
     i = 0
     while len(coleccion) < n:
         s = axioma(i)
+        i += 1
         coleccion.append(s)
         orden.append(s)
         c = producir(orden.pop(0))
         coleccion.append(c)
         orden.append(c)
-        i += 1
+
 
 
     return coleccion
@@ -42,9 +43,6 @@ def main()->None:
     teoremas = mg(n)
     for i in range(n):
         print(teoremas[i])
-    correct = ["m∼g∼", "m∼∼g∼∼", "∼m∼g∼∼", "m∼∼∼g∼∼∼", "∼m∼∼g∼∼∼", "∼∼m∼g∼∼∼", "m∼∼∼∼g∼∼∼∼", "∼m∼∼∼g∼∼∼∼", "∼∼m∼∼g∼∼∼∼", "∼∼∼m∼g∼∼∼∼", "m∼∼∼∼∼g∼∼∼∼∼", "∼m∼∼∼∼g∼∼∼∼∼", "∼∼m∼∼∼g∼∼∼∼∼", "∼∼∼m∼∼g∼∼∼∼∼", "∼∼∼∼m∼g∼∼∼∼∼"]
-
 
 if __name__ == "__main__":
     main()
-    ["m∼g∼", "m∼∼g∼∼", "∼m∼g∼∼", "m∼∼∼g∼∼∼", "∼m∼∼g∼∼∼", "∼∼m∼g∼∼∼", "m∼∼∼∼g∼∼∼∼", "∼m∼∼∼g∼∼∼∼", "∼∼m∼∼g∼∼∼∼", "∼∼∼m∼g∼∼∼∼", "m∼∼∼∼∼g∼∼∼∼∼", "∼m∼∼∼∼g∼∼∼∼∼", "∼∼m∼∼∼g∼∼∼∼∼", "∼∼∼m∼∼g∼∼∼∼∼", "∼∼∼∼m∼g∼∼∼∼∼"]
