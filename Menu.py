@@ -1,5 +1,5 @@
 
-from Ej1 import main as Ej1_main
+from Ej1 import menuEj1 as Ej1_main
 from Ej2 import main as Ej2_main
 from Ej3 import main as Ej3_main
 
