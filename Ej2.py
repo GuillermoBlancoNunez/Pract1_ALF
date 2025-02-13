@@ -65,7 +65,7 @@ def main()->None:
         for i in range(n):
             print(teoremas[i])
     elif f ==2:
-        s = str(input("Introduzca la cadena que quiera comprobar si está en el sistema formal mg~;\n"))
+        s = str(input("Introduzca la cadena que quiera comprobar si está en el sistema formal mg~\n"))
         print(mgCheck(s))
             
 
