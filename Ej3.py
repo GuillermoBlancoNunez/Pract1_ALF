@@ -28,10 +28,8 @@ def main():
     while n > len(teoremas):
         teoremas += MIU(teoremas[i])
         i += 1
-    print(teoremas[:n])
-
-
-
+    for i in teoremas[:n]:
+        print(i)
 
 
 
