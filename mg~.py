@@ -3,18 +3,16 @@ from typing import List
 
 def producir(cad: str) -> str:
     """
-    Modifica una cadena reemplazando cada ocurrencia de 'g' con '~g~'.
+    Modifica una cadena introducida, añadiendo un "~" justo antes de la "g" y añadiendo otro al final de la cadena.
 
     Args:
     cad (str): La cadena de entrada que será procesada.
 
     Returns:
-    str: La cadena modificada con cada 'g' rodeado por '~'.
+    str: La cadena nueva, producida a partir de una cadena que ya formaba parte del sistema formal.
     """
-    for i in cad:
-        if i == "g":
-            cad = cad[:cad.index(i)] + "~" + cad[cad.index(i):] + "~"
-    return cad
+
+    return cad[:cad.index("g")] + "~" + cad[cad.index("g"):] +"~"
 
 
 def axioma(i: int) -> str:
@@ -22,7 +20,7 @@ def axioma(i: int) -> str:
     Genera una cadena inicial basada en un número dado.
 
     Args:
-    i (int): Número de '~' a agregar en ambos extremos de la cadena base "m~g".
+    i (int): Número de '~' a agregar en ambos extremos de la cadena base "m~g" y antes del final "~".
 
     Returns:
     str: La cadena generada.
@@ -69,18 +67,15 @@ def validate(cad: str) -> str:
     Returns:
     str: "yes" si la cadena es válida, "no" en caso contrario.
     """
-    if "m" in cad and "g" in cad and "~" in cad:
-        if cad.count("m") != 1 or cad.count("g") != 1:
-            return "no"
-        elif cad.index("m") < cad.index("g") - 1:
-            if len(cad[:cad.index("g")]) - 1 == len(cad[cad.index("g")+1:]):
-                return "yes"
-            else:
-                return "no"
-        else:
-            return "no"
-    else:
-        return "no"
+    
+    i = cad.index("m")
+    if cad == axioma(len(cad[:i])):
+        return "yes"
+    elif len(cad) > 4 and len(cad)% 2 == 0:
+        newCad = cad[:cad.index("g")-1] + cad[cad.index("g"):len(cad)-1]
+        return validate(newCad)
+
+    return "no"
    
 
        
