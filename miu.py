@@ -16,28 +16,25 @@ def MIU(cadena: str) -> list:
     Returns:
     list: Una lista de cadenas generadas a partir de la cadena original siguiendo las reglas de MIU.
     """
-    letras = [letra for letra in cadena]
     hijos = []
 
     # Regla 1: Si termina en "I", agregar "U"
-    if letras[-1] == "I":
-        hijos.append("".join(letras + ["U"]))
+    if cadena[-1] == "I":
+        hijos.append(cadena + "U")
         
     # Regla 2: Si comienza con "M", duplicar la parte después de "M"
-    if letras[0] == "M":
-        hijos.append("".join(letras + letras[1:]))
+    if cadena[0] == "M":
+        hijos.append(cadena + cadena[1:])
     
     # Regla 3: Reemplazar tres "I" consecutivos por "U"
-    for i in range(0, len(letras)):
-        j = i + 3
-        if ["I", "I", "I"] == letras[i:j]:
-            hijos.append("".join(letras[:i] + ["U"] + letras[j:]))
+    for i in range(len(cadena) - 2):
+        if cadena[i:i+3] == "III":
+            hijos.append(cadena[:i] + "U" + cadena[i+3:])
             
     # Regla 4: Eliminar dos "U" consecutivos
-    for i in range(0, len(letras)):
-        j = i + 2
-        if ["U", "U"] == letras[i:j]:
-            hijos.append("".join(letras[:i] + letras[j:]))
+    for i in range(len(cadena) - 1):
+        if cadena[i:i+2] == "UU":
+            hijos.append(cadena[:i] + cadena[i+2:])
     
     return hijos
 
@@ -56,14 +53,14 @@ def menu():
     None
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument("n", help="Número de teoremas a generar")
+    parser.add_argument("n")
     
     args = parser.parse_args()
     entrada = args.n
     
     if entrada.isdigit():  # Verifica si la entrada es un número entero positivo
         n = int(entrada)
-        teoremas = ["MI"]  # Cadena inicial del sistema MIU
+        teoremas = ["MI"]  # único axioma del sistema MIU
         i = 0
         while n > len(teoremas):
             teoremas += MIU(teoremas[i])  # Generar nuevos teoremas
