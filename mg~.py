@@ -99,9 +99,6 @@ def menu() -> None:
         for i in range(n):
             print(teoremas[i])
     
-    elif all(i in "~mg" for i in entrada) :  # Verifica si la cadena solo contiene ~, m, g
-        print(validate(entrada))
-     
     else:
         print("Error: Entrada no válida. Esta debe ser un número entero positivo o una cadena que solo contenga los caracteres ~, m, y g.")
 

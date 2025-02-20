@@ -1,45 +1,5 @@
 import argparse
-
-def MIU(cadena: str) -> list:
-    """
-    Genera una lista de posibles modificaciones de la cadena de acuerdo con las reglas del sistema MIU.
-
-    Reglas del sistema MIU:
-    - Si la cadena termina en "I", agregar un "U" al final.
-    - Si la cadena comienza con "M", duplicar la parte de la cadena después de "M".
-    - Si la cadena contiene tres "I" consecutivos, reemplazarlos por un solo "U".
-    - Si la cadena contiene dos "U" consecutivos, eliminarlos.
-
-    Args:
-    cadena (str): La cadena de entrada sobre la cual se aplican las reglas.
-
-    Returns:
-    list: Una lista de cadenas generadas a partir de la cadena original siguiendo las reglas de MIU.
-    """
-    hijos = []
-
-    # Regla 1: Si termina en "I", agregar "U"
-    if cadena[-1] == "I":
-        hijos.append(cadena + "U")
-        
-    # Regla 2: Si comienza con "M", duplicar la parte después de "M"
-    if cadena[0] == "M":
-        hijos.append(cadena + cadena[1:])
-    
-    # Regla 3: Reemplazar tres "I" consecutivos por "U"
-    for i in range(len(cadena) - 2):
-        if cadena[i:i+3] == "III":
-            hijos.append(cadena[:i] + "U" + cadena[i+3:])
-            
-    # Regla 4: Eliminar dos "U" consecutivos
-    for i in range(len(cadena) - 1):
-        if cadena[i:i+2] == "UU":
-            hijos.append(cadena[:i] + cadena[i+2:])
-    
-    return hijos
-
-from collections import deque
-
+import math
 def MIU(cadena="MI"):
     """
     Genera las posibles cadenas derivadas de una cadena dada siguiendo las reglas del sistema MIU.
@@ -48,7 +8,7 @@ def MIU(cadena="MI"):
     - Si la cadena termina en "I", agregar un "U".
     - Si la cadena comienza con "M", duplicar la parte después de "M".
     - Si la cadena contiene tres "I" consecutivos, reemplazarlos por un solo "U".
-    - Si la cadena contiene dos "U" consecutivos, eliminarlos.
+    - Si la cadena contiene dos "U" consecutivas, eliminarlas.
     
     Args:
     cadena (str): La cadena sobre la cual aplicar las reglas.
@@ -123,26 +83,33 @@ def decision_MIU(cad: str) -> str:
     Returns:
     str: "yes" si la cadena es un teorema válido, "no" en caso contrario.
     """
-    
+    if cad == "MI":
+        return True
     nI = cad.count("I")
     nM = cad.count("M")
     nU = cad.count("U")
     if nI < 1 or nM != 1 or cad.index("M") != 0:
-        return "no"
-    elif (nI & (nI - 1)) == 0  or (nU + nI) // 3 != 0 :
-        return "yes"
-    return "no"
-        
+        return False
     
+    subcad = cad[1:]
+    if len(subcad) % 2 == 0:
+        medio = len(subcad) // 2
+        if subcad[:medio] == subcad[medio:]:
+            return decision_MIU("M" + subcad[:medio])
+        
+    if cad[len(cad)-2:] == "IU":
+        return decision_MIU(cad[:len(cad)-1])
+   
+    
+    cad = cad.replace("U", "III")
 
-def acertijo_MU() -> None:
-    print("El ciclo de las potencias de 2 módulo 3, que alterna entre los valores 2 y 1, es similar al comportamiento del sistema MIU. "
-      "En MIU, la Regla 2 duplica la cadena, aumentando el número de 'I's de la forma 2^n, creando un ciclo donde las "
-      "'I's siguen creciendo pero nunca se alcanza un número suficiente de 'I's consecutivas para aplicar la Regla 3 "
-      "(que reemplaza tres 'I's por 'U') ya que ningún valor de 2^n para cualquier n es divisible por 3. "
-      "Las reglas 1 y 4 no afectan la cantidad de 'I's en la cadena, por lo que no pueden romper el ciclo. "
-      "Por lo tanto, 'MU' no es posible porque las reglas del sistema MIU generan un ciclo que impide la transformación "
-      "necesaria, haciendo referencia a que las potencias de 2 no se pueden dividir por 3.")
+    n = len(cad[1:])
+    if n > 0 and math.log2(n).is_integer():
+        return True
+    else:
+        return False
+
+        
 
 def menu():
     """
@@ -164,33 +131,38 @@ def menu():
     
     args = parser.parse_args()
     entrada = args.x
-    
-    if args.alg_NoRepeat:
-        if entrada.isdigit():  # Verifica si la entrada es un número entero positivo
+
+    if entrada.isdigit():
+        if args.alg_NoRepeat:
+          # Verifica si la entrada es un número entero positivo
             n = int(entrada)
             cadenas = no_repeat_MIU(n)
             for cadena in cadenas:
                 print(cadena)
-        else:
-            print("Error: Entrada no válida. Esta debe ser un número entero positivo.")
 
-    elif entrada.isdigit():  # Verifica si la entrada es un número entero positivo
-        n = int(entrada)
-        teoremas = ["MI"]  # único axioma del sistema MIU
-        i = 0
-        while n > len(teoremas):
-            teoremas += MIU(teoremas[i])  # Generar nuevos teoremas
-            i += 1
-       
-        print("\n")
-        for i in range(n):
-            print(teoremas[i])  # Imprimir los primeros 'n' teoremas
+        else:  # Verifica si la entrada es un número entero positivo
+            n = int(entrada)
+            teoremas = ["MI"]  # único axioma del sistema MIU
+            i = 0
+            while n > len(teoremas):
+                teoremas += MIU(teoremas[i])  # Generar nuevos teoremas
+                i += 1
+        
+            print("\n")
+            check = True
+            for i in range(n):
+                #print(teoremas[i])  # Imprimir los primeros 'n' teoremas
+                if decision_MIU(teoremas[i]) == False:
+                    check = False
+                    
 
-    elif all(letra in "MIU" for letra in entrada) and "M" in entrada and "I" in entrada and "U" in entrada:
+            print("La implementacion de decision", check)
+
+    elif all(letra in "MIU" for letra in entrada) and "M" in entrada and "I" in entrada :
         print(decision_MIU(entrada))
 
     else:
-        print("Error: Entrada no válida. Esta debe ser un número entero positivo.")
+        print("Error: Entrada no válida. Esta debe ser un número entero positivo o una cadena que solo contenga los caracteres M, I y U.")
 
 def main():
     """
