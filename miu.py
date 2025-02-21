@@ -73,6 +73,7 @@ def no_repeat_MIU(n: int, cadena_inicial="MI"):
 
     return resultado
 
+
 def decision_MIU(cad: str) -> str:
     """
     Determina si una cadena dada es un teorema válido del sistema MIU.
@@ -100,7 +101,9 @@ def decision_MIU(cad: str) -> str:
     if cad[len(cad)-2:] == "IU":
         return decision_MIU(cad[:len(cad)-1])
    
-    
+    if "UU" in cad:
+        return decision_MIU(cad.replace("UU", ""))
+
     cad = cad.replace("U", "III")
 
     n = len(cad[1:])
@@ -150,11 +153,16 @@ def menu():
         
             print("\n")
             check = True
-            for i in range(n):
-                #print(teoremas[i])  # Imprimir los primeros 'n' teoremas
+            #for i in range(n):
+            i=-1
+            while i < n:
+                i += 1
+                print(teoremas[i])  # Imprimir los primeros 'n' teoremas
                 if decision_MIU(teoremas[i]) == False:
                     check = False
-                    
+                    print(teoremas[i])
+                    print("ala")
+                                      
 
             print("La implementacion de decision", check)
 
