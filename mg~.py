@@ -67,20 +67,18 @@ def validate(cad: str) -> str:
     Returns:
     str: "yes" si la cadena es válida, "no" en caso contrario.
     """
-    
-    i = cad.index("m")
-    if cad == axioma(len(cad[:i])):
-        return "yes"
-    elif len(cad) > 4 and len(cad)% 2 == 0:
-        newCad = cad[:cad.index("g")-1] + cad[cad.index("g"):len(cad)-1]
-        return validate(newCad)
+    if "g" in cad and "m" in cad and "~" in cad:
+        i = cad.index("m")
+        if cad == axioma(len(cad[:i])):
+            return "yes"
+        elif len(cad) > 4 and len(cad)% 2 == 0:
+            newCad = cad[:cad.index("g")-1] + cad[cad.index("g"):len(cad)-1]
+            return validate(newCad)
 
-    return "no"
-   
+        return "no"    
+    else:
+        return "no"
 
-       
-    
-    
 
 def menu() -> None:
     """
@@ -99,6 +97,9 @@ def menu() -> None:
         for i in range(n):
             print(teoremas[i])
     
+    elif all(c in ["~", "m", "g"] for c in entrada):  # Verifica si la entrada es una cadena válida
+        print(validate(entrada))
+
     else:
         print("Error: Entrada no válida. Esta debe ser un número entero positivo o una cadena que solo contenga los caracteres ~, m, y g.")
 

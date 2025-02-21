@@ -72,46 +72,6 @@ def no_repeat_MIU(n: int, cadena_inicial="MI"):
                     break
 
     return resultado
-
-
-def decision_MIU(cad: str) -> str:
-    """
-    Determina si una cadena dada es un teorema válido del sistema MIU.
-
-    Args:
-    cadena (str): La cadena a evaluar.
-
-    Returns:
-    str: "yes" si la cadena es un teorema válido, "no" en caso contrario.
-    """
-    if cad == "MI":
-        return True
-    nI = cad.count("I")
-    nM = cad.count("M")
-    nU = cad.count("U")
-    if nI < 1 or nM != 1 or cad.index("M") != 0:
-        return False
-    
-    subcad = cad[1:]
-    if len(subcad) % 2 == 0:
-        medio = len(subcad) // 2
-        if subcad[:medio] == subcad[medio:]:
-            return decision_MIU("M" + subcad[:medio])
-        
-    if cad[len(cad)-2:] == "IU":
-        return decision_MIU(cad[:len(cad)-1])
-   
-    if "UU" in cad:
-        return decision_MIU(cad.replace("UU", ""))
-
-    cad = cad.replace("U", "III")
-
-    n = len(cad[1:])
-    if n > 0 and math.log2(n).is_integer():
-        return True
-    else:
-        return False
-
         
 
 def menu():
@@ -140,6 +100,7 @@ def menu():
           # Verifica si la entrada es un número entero positivo
             n = int(entrada)
             cadenas = no_repeat_MIU(n)
+            print("\n")
             for cadena in cadenas:
                 print(cadena)
 
@@ -150,27 +111,14 @@ def menu():
             while n > len(teoremas):
                 teoremas += MIU(teoremas[i])  # Generar nuevos teoremas
                 i += 1
-        
             print("\n")
-            check = True
-            #for i in range(n):
-            i=-1
-            while i < n:
-                i += 1
+            
+            for i in range(n):
                 print(teoremas[i])  # Imprimir los primeros 'n' teoremas
-                if decision_MIU(teoremas[i]) == False:
-                    check = False
-                    print(teoremas[i])
-                    print("ala")
-                                      
-
-            print("La implementacion de decision", check)
-
-    elif all(letra in "MIU" for letra in entrada) and "M" in entrada and "I" in entrada :
-        print(decision_MIU(entrada))
-
+        
     else:
-        print("Error: Entrada no válida. Esta debe ser un número entero positivo o una cadena que solo contenga los caracteres M, I y U.")
+        print("Error: Entrada no válida. Esta debe ser un número entero positivo.")
+
 
 def main():
     """
