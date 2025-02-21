@@ -106,8 +106,8 @@ def analisis_tiempos() -> None:
     Measures and compares the execution times of functions 'a' and 'u' for generating
     lists of rational numbers. Prints an analysis summary of the times and efficiencies.
     """
-    t_a, _ = measure_t(1000000, a)
-    t_u, _ = measure_t(1000000, u)
+    t_a, _ = measure_t(10000000, a)
+    t_u, _ = measure_t(10000000, u)
     print("__________________________________________________________")
     print("ANÁLISIS DE TIEMPOS")
     print("__________________________________________________________")
